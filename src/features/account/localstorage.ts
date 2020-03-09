@@ -28,6 +28,10 @@ class Storage {
 
     localStorage.setItem(key, JSON.stringify(payload));
   }
+
+  removeItem(key: string) {
+    localStorage.removeItem(key);
+  }
 }
 
 export const storage = new Storage();

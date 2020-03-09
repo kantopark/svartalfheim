@@ -1,4 +1,4 @@
-import { createAsyncAction, createAction } from "typesafe-actions";
+import { createAction, createAsyncAction } from "typesafe-actions";
 import { Account, AccountValidatePayload } from "./types";
 
 export const validateAccount = createAsyncAction(
@@ -8,3 +8,9 @@ export const validateAccount = createAsyncAction(
 )<AccountValidatePayload, Account, void>();
 
 export const retrieveAccount = createAction("RETRIEVE_ACCOUNT_FROM_STORE")<void>();
+
+export const logout = createAsyncAction(
+  "LOGOUT_ACCOUNT_FROM_STORE_REQUEST",
+  "LOGOUT_ACCOUNT_FROM_STORE_SUCCESS",
+  "LOGOUT_ACCOUNT_FROM_STORE_FAILURE"
+)<void, void, void>();

@@ -1,11 +1,11 @@
 import AllActions from "@/features/root-action";
 import produce from "immer";
 import { getType } from "typesafe-actions";
-
-import { Store } from "./types";
 import * as A from "./action";
 
-const defaultState: Store = {
+import { Store } from "./types";
+
+export const defaultState: Store = {
   loading: {
     currentUser: "SUCCESS"
   }
@@ -23,6 +23,10 @@ export default (state = defaultState, action: AllActions) =>
       case getType(A.validateAccount.success):
         draft.loading.currentUser = "SUCCESS";
         draft.currentUser = action.payload;
+        break;
+
+      case getType(A.logout.success):
+        draft.currentUser = undefined;
         break;
     }
   });
