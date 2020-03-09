@@ -1,0 +1,29 @@
+@import (reference) "../styles";
+
+.footer {
+  min-height: @footer-height;
+  background-color: @primary-color !important;
+  text-align: center;
+  padding-top: 72px;
+
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 18px;
+
+    .logo {
+      width: 64px;
+      filter: invert(100%);
+    }
+  }
+
+  .subtitle {
+    color: #ffffff;
+    font-size: 20px;
+  }
+
+  .text {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 14px;
+  }
+}

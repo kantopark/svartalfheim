@@ -1,0 +1,28 @@
+.link {
+  color: #e6e6e6;
+  line-height: 1.4;
+  font-weight: 400;
+  margin-left: 24px;
+
+  &:hover,
+  :active,
+  :focus {
+    color: #ffffff;
+    text-decoration: underline;
+  }
+
+  &:disabled {
+    @color: #b9b9b9;
+    color: @color;
+
+    &:hover {
+      color: @color;
+    }
+  }
+}
+
+.user-menu {
+  background-color: inherit;
+  color: #ffffff;
+  cursor: pointer;
+}

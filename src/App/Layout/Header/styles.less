@@ -1,0 +1,34 @@
+@import (reference) "../styles";
+
+.header {
+  height: @header-height !important;
+  box-shadow: 0 5px 5px #cecece;
+  margin-bottom: @header-margin;
+  background: @primary-color;
+
+  .container {
+    .container();
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+
+    .title {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      .logo {
+        width: 60px;
+        filter: invert(100%);
+      }
+
+      .text {
+        margin-left: 16px;
+        font-size: 32px;
+        font-weight: 400;
+        color: white;
+      }
+    }
+  }
+}
