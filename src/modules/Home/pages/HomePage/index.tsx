@@ -3,7 +3,7 @@ import React from "react";
 import Intro from "./Intro";
 import styles from "./styles.less";
 
-export default () => (
+const HomePage = () => (
   <div className={styles.main}>
     <div className={styles.title}>Nidavellir</div>
     <Divider />
@@ -11,3 +11,9 @@ export default () => (
     <Divider />
   </div>
 );
+
+export default {
+  component: HomePage,
+  path: "/",
+  title: "Home Page"
+} as ModuleRoute;
