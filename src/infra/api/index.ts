@@ -4,7 +4,7 @@ export const serverUrl = !!process.env.REACT_APP_SERVER_URL
   ? process.env.REACT_APP_SERVER_URL
   : `${window.location.protocol}//${window.location.hostname}:7050`;
 
-class ApiClient {
+export class ApiClient {
   private readonly client: AxiosInstance;
 
   constructor(baseURL: string, config?: AxiosRequestConfig) {
@@ -47,5 +47,4 @@ class ApiClient {
   }
 }
 
-export const publicApi = new ApiClient(`${serverUrl}/public-api`);
-export const privateApi = new ApiClient(`${serverUrl}/api`);
+export const api = new ApiClient(`${serverUrl}/api`);

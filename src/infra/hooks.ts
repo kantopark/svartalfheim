@@ -1,6 +1,6 @@
-import { isEqual } from "lodash";
-import { useSelector } from "react-redux";
 import RootState from "@/features/root-state";
+import isEqual from "lodash/isEqual";
+import { useSelector } from "react-redux";
 
 export const useRouter = () => useSelector((state: RootState) => state.router);
 
@@ -9,5 +9,5 @@ export function useRootSelector<R = unknown>(
   equalityFn?: (left: R, right: R) => boolean
 ) {
   if (equalityFn === undefined) equalityFn = isEqual;
-  return useSelector(selector, isEqual);
+  return useSelector(selector, equalityFn);
 }
