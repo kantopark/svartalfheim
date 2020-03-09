@@ -1,9 +1,7 @@
-import Main from "./pages/Main";
+import HomePage from "./pages/HomePage";
+import Login from "./pages/Login";
 
-export default [
-  {
-    component: Main,
-    path: "/",
-    title: "Homepage"
-  }
-] as ModuleRoute[];
+export default {
+  prefix: "/",
+  routes: [HomePage, Login]
+} as ModuleDetail;

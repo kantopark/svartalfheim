@@ -14,7 +14,11 @@ type ModuleRoute = {
 };
 
 type ModuleRoutes = {
-  clusterName: string;
   routes: ModuleRoute[];
   protected?: boolean;
+};
+
+type ModuleDetail = {
+  prefix: string;
+  routes: ModuleRoute[];
 };
