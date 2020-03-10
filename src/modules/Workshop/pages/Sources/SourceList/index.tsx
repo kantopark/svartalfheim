@@ -8,7 +8,7 @@ export default () => {
   return (
     <QueryContext.Provider value={{ query, setQuery }}>
       <SearchBar />
-      <List itemLayout="vertical" size="large" pagination={{ pageSize: 5 }} />;
+      <List itemLayout="vertical" size="large" pagination={{ pageSize: 5 }} />
     </QueryContext.Provider>
   );
 };

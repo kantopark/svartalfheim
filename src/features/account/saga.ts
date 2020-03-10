@@ -12,8 +12,10 @@ export function* validateAccount({ payload }: ReturnType<typeof A.validateAccoun
 
   try {
     const { data }: AxiosResponse<Account> = yield call(api.post, "/validate/account", payload);
-    yield put(A.validateAccount.success(data));
-    storage.setItem(ACCT_KEY, data);
+    const user = { ...payload, ...data };
+
+    yield put(A.validateAccount.success(user));
+    storage.setItem(ACCT_KEY, user);
   } catch (e) {
     yield put(A.validateAccount.failure());
   }
@@ -21,14 +23,11 @@ export function* validateAccount({ payload }: ReturnType<typeof A.validateAccoun
 
 function* retrieveAccount() {
   const account = storage.getItem<Account>(ACCT_KEY);
+  if (account === null) return;
 
-  if (account !== null) {
-    const { username = "", password = "" } = account;
-    if (!!username || !!password) return;
-    yield put(A.validateAccount.request({ username, password }));
-  } else {
-    yield put(A.validateAccount.request({ username: "admin", password: "password" }));
-  }
+  const { username = "", password = "" } = account;
+  if (username === "") return;
+  yield put(A.validateAccount.request({ username, password }));
 }
 
 export function* logoutAccount() {
