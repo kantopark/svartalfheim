@@ -22,3 +22,9 @@ type ModuleDetail = {
   prefix: string;
   routes: ModuleRoute[];
 };
+
+type LeftMenuRecord = {
+  title: string;
+  path: string;
+  children?: Omit<LeftMenuRecord, "children">[];
+};
