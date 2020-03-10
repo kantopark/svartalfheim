@@ -2,6 +2,12 @@ export type Store = {
   sources: Record<number, Source>;
   jobs: Record<number, Job>;
   jobInfo: JobInfo;
+
+  loading: {
+    sources: LoadingState;
+    jobs: LoadingState;
+    jobInfo: LoadingState;
+  };
 };
 
 export type Job = {
@@ -31,7 +37,7 @@ export type Source = {
   id: number;
   name: string;
   repoUrl: string;
-  interval: number;
+  cronExpr: string;
   state: string;
   nextTime: string;
   secrets: Secret[];

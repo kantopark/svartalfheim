@@ -1,9 +1,10 @@
 import { all, call, delay, spawn } from "redux-saga/effects";
 import { AccountSaga } from "./account";
+import { WorkshopSaga } from "./workshop";
 
 export default function*() {
   // List your sagas here
-  const sagas = [AccountSaga].map(recoverable);
+  const sagas = [AccountSaga, WorkshopSaga].map(recoverable);
 
   yield all(sagas.map(call));
 }
