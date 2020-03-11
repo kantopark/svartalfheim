@@ -40,7 +40,7 @@ describe("user validation", () => {
   it("logs user out", async () => {
     const { storeState } = await expectSaga(saga.logoutAccount)
       .withReducer(Reducer, { ...defaultState, currentUser: { id: 1, isAdmin: false, ...user } })
-      .put(A.logout.success())
+      .dispatch(A.logout())
       .run();
 
     expect(storeState.currentUser).toBeUndefined();

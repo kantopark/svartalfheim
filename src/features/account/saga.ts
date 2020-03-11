@@ -32,13 +32,13 @@ function* retrieveAccount() {
 
 export function* logoutAccount() {
   storage.removeItem(ACCT_KEY);
-  yield put(A.logout.success());
+  yield put(A.logoutAction());
 }
 
 export default function*() {
   yield all([
     takeLatest(A.retrieveAccount, retrieveAccount),
     takeLatest(A.validateAccount.request, validateAccount),
-    takeEvery(A.logout.request, logoutAccount)
+    takeEvery(A.logout, logoutAccount)
   ]);
 }

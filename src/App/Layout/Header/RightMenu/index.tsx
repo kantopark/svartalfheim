@@ -59,7 +59,7 @@ const UserMenu = () => {
   );
 
   function logout() {
-    dispatch(AccountAction.logout.request());
+    dispatch(AccountAction.logout());
     dispatch(push("/"));
   }
 };

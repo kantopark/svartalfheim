@@ -25,7 +25,7 @@ export default (state = defaultState, action: AllActions) =>
         draft.currentUser = action.payload;
         break;
 
-      case getType(A.logout.success):
+      case getType(A.logoutAction):
         draft.currentUser = undefined;
         break;
     }
