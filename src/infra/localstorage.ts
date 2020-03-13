@@ -5,16 +5,16 @@ type Expiry<R> = {
   __expiry: string;
 };
 
-class Storage {
-  private dateFormat = "YYYY-MM-DD HH:mm:ss";
+const dateFormat = "YYYY-MM-DD HH:mm:ss";
 
+class Storage {
   getItem<R>(key: string) {
     const json = localStorage.getItem(key);
     if (json === null) return null;
     const { __value, __expiry } = JSON.parse(json) as Expiry<R>;
 
     // if expiry is after now, return value. Otherwise, return null
-    return moment.utc(__expiry, this.dateFormat).isAfter(moment.utc()) ? __value : null;
+    return moment.utc(__expiry, dateFormat).isAfter(moment.utc()) ? __value : null;
   }
 
   setItem<R>(key: string, value: R, hoursValid: number = 24) {
@@ -23,12 +23,13 @@ class Storage {
       __expiry: moment
         .utc()
         .add(hoursValid, "hours")
-        .format(this.dateFormat)
+        .format(dateFormat)
     };
     localStorage.setItem(key, JSON.stringify(payload));
   }
 
   removeItem(key: string) {
+    console.log("here");
     localStorage.removeItem(key);
   }
 }
