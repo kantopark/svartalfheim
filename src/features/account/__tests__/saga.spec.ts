@@ -1,4 +1,5 @@
 import { api } from "@/infra/api";
+import { storage } from "@/infra/localstorage";
 import { apiClient } from "@/infra/selector";
 import { push } from "connected-react-router";
 import { expectSaga } from "redux-saga-test-plan";
@@ -21,12 +22,15 @@ describe("user validation", () => {
   it("dispatches success result with valid user", () => {
     const mockResponse = { id: 1, isAdmin: false, ...user };
 
-    return expectSaga(saga.validateAccount, payload)
+    expectSaga(saga.validateAccount, payload)
       .provide([
         [select(apiClient), api],
-        [matchers.call.fn(api.post), { data: mockResponse }]
+        [matchers.call.fn(api.post), { data: mockResponse }],
+        [matchers.call.fn(storage.setItem), undefined]
       ])
+      .call(api.post, "/validate/account", user)
       .put(A.validateAccount.success(mockResponse))
+      .call(storage.setItem, saga.ACCT_KEY, mockResponse)
       .put(push(to))
       .run();
   });
@@ -40,8 +44,22 @@ describe("user validation", () => {
       .put(A.validateAccount.failure())
       .run());
 
+  it("retrieves account details and dispatches validation request", () => {
+    const payload: ReturnType<typeof A.retrieveAccount> = {
+      type: "RETRIEVE_ACCOUNT_FROM_STORE",
+      payload: "/any-path"
+    };
+
+    expectSaga(saga.retrieveAccount, payload)
+      .provide([[matchers.call.fn(storage.setItem), user]])
+      .call(storage.getItem, saga.ACCT_KEY)
+      .dispatch(A.validateAccount.request({ ...user, to: payload.payload }))
+      .run();
+  });
+
   it("logs user out", async () => {
     const { storeState } = await expectSaga(saga.logoutAccount)
+      .provide([[matchers.call.fn(storage.removeItem), undefined]])
       .withReducer(Reducer, { ...defaultState, currentUser: { id: 1, isAdmin: false, ...user } })
       .dispatch(A.logout())
       .run();

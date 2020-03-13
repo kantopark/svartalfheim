@@ -9,7 +9,7 @@ export const validateAccount = createAsyncAction(
   "VALIDATE_ACCOUNT_FAILURE"
 )<Redirection<AccountValidatePayload>, Account, void>();
 
-export const retrieveAccount = createAction("RETRIEVE_ACCOUNT_FROM_STORE")<void>();
+export const retrieveAccount = createAction("RETRIEVE_ACCOUNT_FROM_STORE")<string>();
 
 export const [logoutAction, logout] = createLocalAction(
   { type: "LOGOUT_ACCOUNT_FROM_STORE_REQUEST" },
