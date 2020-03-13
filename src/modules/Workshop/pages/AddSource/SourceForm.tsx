@@ -5,6 +5,7 @@ import { formPath } from "@/libs";
 import { MODULE_PREFIX } from "@/modules/Workshop/constants";
 import { path as sourcePath } from "@/modules/Workshop/pages/Sources/constants";
 import { Button, Form, Input } from "antd";
+import { push } from "connected-react-router";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { NextRun, useSourceContext } from "./hooks";
@@ -18,6 +19,7 @@ type CronOutput = {
 };
 
 type FormOutput = Pick<Source, "name" | "repoUrl" | "cronExpr">;
+const workshopPage = formPath(MODULE_PREFIX, sourcePath);
 
 export default () => {
   const { setNextRuns } = useSourceContext();
@@ -38,7 +40,7 @@ export default () => {
         dispatch(
           createSourceAsync.request({
             ...(v as FormOutput),
-            to: formPath(MODULE_PREFIX, sourcePath)
+            to: workshopPage
           })
         )
       }
@@ -129,6 +131,7 @@ export default () => {
         <Button htmlType="submit" type="primary">
           Submit
         </Button>
+        <Button onClick={() => dispatch(push(workshopPage))}>Back</Button>
       </FormItem>
     </Form>
   );
