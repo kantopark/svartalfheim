@@ -20,7 +20,7 @@ const defaultState: Store = {
     imageLogs: "",
     outputFiles: []
   },
-  loading: {
+  status: {
     jobInfo: "SUCCESS",
     jobs: "SUCCESS",
     sources: "SUCCESS"
@@ -30,23 +30,32 @@ const defaultState: Store = {
 export default (state = defaultState, action: AllActions) =>
   produce(state, draft => {
     switch (action.type) {
+      case getType(A.deleteSourceAsync.request):
       case getType(A.createSourceAsync.request):
       case getType(A.fetchSourcesAsync.request):
-        draft.loading.sources = "REQUEST";
+        draft.status.sources = "REQUEST";
         break;
 
+      case getType(A.deleteSourceAsync.failure):
       case getType(A.createSourceAsync.failure):
       case getType(A.fetchSourcesAsync.failure):
-        draft.loading.sources = "FAILURE";
+        draft.status.sources = "FAILURE";
         break;
 
-      case getType(A.fetchSourcesAsync.success):
-        draft.loading.sources = "SUCCESS";
+      case getType(A.fetchSourcesAsync.success): {
+        draft.status.sources = "SUCCESS";
         draft.sources = action.payload;
         break;
+      }
 
       case getType(A.createSourceAsync.success):
-        draft.loading.sources = "SUCCESS";
+        draft.status.sources = "SUCCESS";
         draft.sources[action.payload.id] = action.payload;
+        break;
+
+      case getType(A.deleteSourceAsync.success):
+        draft.status.sources = "SUCCESS";
+        delete draft.sources[action.payload];
+        break;
     }
   });

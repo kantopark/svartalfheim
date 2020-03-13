@@ -3,7 +3,7 @@ export type Store = {
   jobs: Record<number, Job>;
   jobInfo: JobInfo;
 
-  loading: {
+  status: {
     sources: LoadingState;
     jobs: LoadingState;
     jobInfo: LoadingState;
