@@ -1,16 +1,17 @@
 import { validateAccount } from "@/features/account/action";
+import { useRootSelector } from "@/infra/hooks";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Col, Form, Input, Row } from "antd";
-import { push } from "connected-react-router";
-
+import { Button, Col, Form, Input, Row, Typography } from "antd";
 import React from "react";
 import { useDispatch } from "react-redux";
 import styles from "./styles.less";
 
 const FormItem = Form.Item;
+const { Paragraph } = Typography;
 
 const LoginPage = () => {
   const dispatch = useDispatch();
+  const status = useRootSelector(s => s.account.status.currentUser);
 
   return (
     <Row className={styles.container}>
@@ -32,18 +33,29 @@ const LoginPage = () => {
           </FormItem>
 
           <FormItem>
-            <Button type="primary" htmlType="submit" className={styles.submit}>
+            <Button
+              loading={status === "REQUEST"}
+              type="primary"
+              htmlType="submit"
+              className={styles.submit}
+            >
               Log in
             </Button>
           </FormItem>
         </Form>
       </Col>
+      {status === "FAILURE" && (
+        <Col span={24}>
+          <Paragraph type="danger">
+            Invalid credentials. Please check that you've put in the right values.
+          </Paragraph>
+        </Col>
+      )}
     </Row>
   );
 
   function login(payload: any) {
-    dispatch(validateAccount.request(payload));
-    dispatch(push("/"));
+    dispatch(validateAccount.request({ ...payload, to: "/" }));
   }
 };
 
