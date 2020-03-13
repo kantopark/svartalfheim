@@ -1,5 +1,6 @@
 import { createReducer, rootSaga } from "@/features";
 import { retrieveAccount } from "@/features/account/action";
+import RootState from "@/features/root-state";
 import { routerMiddleware } from "connected-react-router";
 import { createBrowserHistory } from "history";
 import { applyMiddleware, createStore, Store } from "redux";
@@ -21,8 +22,11 @@ function configureStore() {
   return store;
 }
 
-function initialSetup(store: Store) {
-  store.dispatch(retrieveAccount());
-}
+const initialSetup = (store: Store) => {
+  const { pathname } = getState(store).router.location;
+  store.dispatch(retrieveAccount(pathname));
+};
+
+const getState = (store: Store): RootState => store.getState();
 
 export default configureStore();
