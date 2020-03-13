@@ -28,3 +28,5 @@ type LeftMenuRecord = {
   path: string;
   children?: Omit<LeftMenuRecord, "children">[];
 };
+
+type Redirection<T> = T & { to: string };

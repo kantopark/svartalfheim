@@ -1,7 +1,7 @@
 export type Store = {
   currentUser?: Account;
 
-  loading: {
+  status: {
     currentUser: LoadingState;
   };
 };

@@ -1,5 +1,6 @@
 import { api } from "@/infra/api";
 import { apiClient } from "@/infra/selector";
+import { push } from "connected-react-router";
 import { expectSaga } from "redux-saga-test-plan";
 import * as matchers from "redux-saga-test-plan/matchers";
 import { throwError } from "redux-saga-test-plan/providers";
@@ -11,13 +12,14 @@ import * as saga from "../saga";
 
 describe("user validation", () => {
   const user = { username: "user", password: "password" };
+  const to = "/";
   const payload: ReturnType<typeof A.validateAccount.request> = {
     type: "VALIDATE_ACCOUNT_REQUEST",
-    payload: user
+    payload: { ...user, to }
   };
 
   it("dispatches success result with valid user", () => {
-    const mockResponse = { id: 1, isAdmin: false, ...payload.payload };
+    const mockResponse = { id: 1, isAdmin: false, ...user };
 
     return expectSaga(saga.validateAccount, payload)
       .provide([
@@ -25,6 +27,7 @@ describe("user validation", () => {
         [matchers.call.fn(api.post), { data: mockResponse }]
       ])
       .put(A.validateAccount.success(mockResponse))
+      .put(push(to))
       .run();
   });
 

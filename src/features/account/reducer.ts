@@ -6,7 +6,7 @@ import * as A from "./action";
 import { Store } from "./types";
 
 export const defaultState: Store = {
-  loading: {
+  status: {
     currentUser: "SUCCESS"
   }
 };
@@ -15,13 +15,13 @@ export default (state = defaultState, action: AllActions) =>
   produce(state, draft => {
     switch (action.type) {
       case getType(A.validateAccount.request):
-        draft.loading.currentUser = "REQUEST";
+        draft.status.currentUser = "REQUEST";
         break;
       case getType(A.validateAccount.failure):
-        draft.loading.currentUser = "FAILURE";
+        draft.status.currentUser = "FAILURE";
         break;
       case getType(A.validateAccount.success):
-        draft.loading.currentUser = "SUCCESS";
+        draft.status.currentUser = "SUCCESS";
         draft.currentUser = action.payload;
         break;
 

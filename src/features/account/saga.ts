@@ -1,5 +1,6 @@
 import { apiClient } from "@/infra/selector";
 import { AxiosResponse } from "axios";
+import { push } from "connected-react-router";
 import { all, call, put, select, takeEvery, takeLatest } from "redux-saga/effects";
 import * as A from "./action";
 import { storage } from "./localstorage";
@@ -9,13 +10,15 @@ const ACCT_KEY = "NIDA_ACCOUNT_KEY";
 
 export function* validateAccount({ payload }: ReturnType<typeof A.validateAccount.request>) {
   const api = yield select(apiClient);
-
+  const { to, ...credentials } = payload;
   try {
-    const { data }: AxiosResponse<Account> = yield call(api.post, "/validate/account", payload);
-    const user = { ...payload, ...data };
+    const { data }: AxiosResponse<Account> = yield call(api.post, "/validate/account", credentials);
+    const user = { ...credentials, ...data };
 
     yield put(A.validateAccount.success(user));
     storage.setItem(ACCT_KEY, user);
+
+    yield put(push(to));
   } catch (e) {
     yield put(A.validateAccount.failure());
   }
@@ -27,7 +30,7 @@ function* retrieveAccount() {
 
   const { username = "", password = "" } = account;
   if (username === "") return;
-  yield put(A.validateAccount.request({ username, password }));
+  yield put(A.validateAccount.request({ username, password, to: "/" }));
 }
 
 export function* logoutAccount() {
