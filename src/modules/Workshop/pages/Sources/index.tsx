@@ -7,6 +7,7 @@ import { Button } from "antd";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { path } from "./constants";
 import SourceList from "./SourceList";
 import styles from "./styles.less";
 
@@ -34,6 +35,6 @@ const SourcePage = () => {
 
 export default {
   component: SourcePage,
-  path: "/sources",
+  path,
   title: "Sources"
 } as ModuleRoute;

@@ -1,5 +1,6 @@
 import { apiClient } from "@/infra/selector";
 import { AxiosResponse } from "axios";
+import { push } from "connected-react-router";
 import { all, call, put, select, takeLatest } from "redux-saga/effects";
 import * as A from "./action";
 import { Source } from "./types";
@@ -17,8 +18,10 @@ export function* fetchSources() {
 export function* createSource({ payload }: ReturnType<typeof A.createSourceAsync.request>) {
   try {
     const api = yield select(apiClient);
-    const { data }: AxiosResponse<Source> = yield call(api.post, "/source", payload);
+    const { to, ...rest } = payload;
+    const { data }: AxiosResponse<Source> = yield call(api.post, "/source", rest);
     yield put(A.createSourceAsync.success(data));
+    yield put(push(to));
   } catch (e) {
     yield put(A.createSourceAsync.failure());
   }

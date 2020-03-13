@@ -1,6 +1,9 @@
 import { createSourceAsync } from "@/features/workshop/action";
 import { Source } from "@/features/workshop/types";
 import { api } from "@/infra/api";
+import { formPath } from "@/libs";
+import { MODULE_PREFIX } from "@/modules/Workshop/constants";
+import { path as sourcePath } from "@/modules/Workshop/pages/Sources/constants";
 import { Button, Form, Input } from "antd";
 import React from "react";
 import { useDispatch } from "react-redux";
@@ -31,7 +34,14 @@ export default () => {
         sm: { span: 16 },
         md: { span: 12 }
       }}
-      onFinish={v => dispatch(createSourceAsync.request(v as FormOutput))}
+      onFinish={v =>
+        dispatch(
+          createSourceAsync.request({
+            ...(v as FormOutput),
+            to: formPath(MODULE_PREFIX, sourcePath)
+          })
+        )
+      }
     >
       <FormItem
         name="name"

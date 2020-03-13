@@ -11,4 +11,4 @@ export const createSourceAsync = createAsyncAction(
   "CREATE_SOURCE_REQUEST",
   "CREATE_SOURCE_SUCCESS",
   "CREATE_SOURCE_FAILURE"
-)<Pick<Source, "name" | "repoUrl" | "cronExpr">, Source, void>();
+)<Redirection<Pick<Source, "name" | "repoUrl" | "cronExpr">>, Source, void>();
