@@ -1,36 +1,38 @@
 import { createSourceAsync } from "@/features/workshop/action";
 import { Source } from "@/features/workshop/types";
 import { api } from "@/infra/api";
+import { useRootSelector } from "@/infra/hooks";
 import { formPath } from "@/libs";
+import { NextRun } from "@/modules/Workshop/components/NextRunList";
 import { MODULE_PREFIX } from "@/modules/Workshop/constants";
 import { path as sourcePath } from "@/modules/Workshop/pages/Sources/constants";
 import { Button, Form, Input } from "antd";
 import { push } from "connected-react-router";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { NextRun, useSourceContext } from "./hooks";
 import styles from "./styles.less";
-
-const FormItem = Form.Item;
 
 type CronOutput = {
   errors: string[];
   nextRuns: NextRun[];
 };
-
 type FormOutput = Pick<Source, "name" | "repoUrl" | "cronExpr">;
+
+const FormItem = Form.Item;
 const workshopPage = formPath(MODULE_PREFIX, sourcePath);
 
-export default () => {
-  const { setNextRuns } = useSourceContext();
-  const [form] = Form.useForm();
+type Props = {
+  setNextRuns: (nextRuns: NextRun[]) => void;
+};
+
+export default ({ setNextRuns }: Props) => {
+  const loading = useRootSelector(s => s.workshop.status.sources === "REQUEST");
   const dispatch = useDispatch();
 
   return (
     <Form
       name="add-source"
       layout="vertical"
-      form={form}
       wrapperCol={{
         xs: { span: 24 },
         sm: { span: 16 },
@@ -128,7 +130,7 @@ export default () => {
       </FormItem>
 
       <FormItem className={styles.submit}>
-        <Button htmlType="submit" type="primary">
+        <Button htmlType="submit" type="primary" loading={loading} disabled={loading}>
           Submit
         </Button>
         <Button onClick={() => dispatch(push(workshopPage))}>Back</Button>

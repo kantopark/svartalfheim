@@ -1,11 +1,18 @@
 import { List } from "antd";
 import round from "lodash/round";
 import React from "react";
-import { useSourceContext } from "./hooks";
 import styles from "./styles.less";
 
-export default () => {
-  const { nextRuns } = useSourceContext();
+export type NextRun = {
+  time: string;
+  delta: number;
+};
+
+type Props = {
+  nextRuns: NextRun[];
+};
+
+export default ({ nextRuns }: Props) => {
   if (nextRuns.length === 0) return null;
 
   return (
