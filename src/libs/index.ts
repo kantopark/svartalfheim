@@ -1,12 +1,19 @@
 import { createAction } from "typesafe-actions";
 
-export function formPath(prefix: string, componentPath: string) {
+export function formPath(prefix: string, componentPath: string, params?: Record<string, any>) {
   const stripSlash = (s: string) => s.replace(/^\/*/g, "").replace(/\/*$/g, "");
 
   prefix = stripSlash(prefix);
   componentPath = stripSlash(componentPath);
 
-  return `/${prefix}/${componentPath}`.replace(/\/{2,}/g, "/");
+  let path = `/${prefix}/${componentPath}`.replace(/\/{2,}/g, "/");
+
+  Object.entries(params ?? {}).forEach(([key, value]) => {
+    if (!key.startsWith(":")) key = ":" + key;
+    path = path.replace(new RegExp(`/${key}(/?)$`, "gi"), `/${value}$1`);
+  });
+
+  return path;
 }
 
 type LocalActionDef<

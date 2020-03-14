@@ -1,7 +1,11 @@
 import { WorkshopSelector } from "@/features/workshop";
 import { deleteSourceAsync } from "@/features/workshop/action";
 import { useRootSelector } from "@/infra/hooks";
+import { formPath } from "@/libs";
+import { MODULE_PREFIX } from "@/modules/Workshop/constants";
+import UpdateSourceForm from "@/modules/Workshop/pages/UpdateSource";
 import { Avatar, Button, List, Popconfirm } from "antd";
+import { push } from "connected-react-router";
 import Fuse from "fuse.js";
 import React from "react";
 import { useDispatch } from "react-redux";
@@ -43,7 +47,14 @@ export default () => {
           <List.Item
             key={item.id}
             actions={[
-              <Button>Update</Button>,
+              <Button type="primary">Trigger</Button>,
+              <Button
+                onClick={() =>
+                  dispatch(push(formPath(MODULE_PREFIX, UpdateSourceForm.path, { id: item.id })))
+                }
+              >
+                Update
+              </Button>,
               <Popconfirm
                 title="Are you sure you want to delete this source?"
                 onConfirm={() => dispatch(deleteSourceAsync.request(item.id))}
