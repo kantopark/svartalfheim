@@ -33,12 +33,14 @@ export default (state = defaultState, action: AllActions) =>
       case getType(A.deleteSourceAsync.request):
       case getType(A.createSourceAsync.request):
       case getType(A.fetchSourcesAsync.request):
+      case getType(A.updateSourceAsync.request):
         draft.status.sources = "REQUEST";
         break;
 
       case getType(A.deleteSourceAsync.failure):
       case getType(A.createSourceAsync.failure):
       case getType(A.fetchSourcesAsync.failure):
+      case getType(A.updateSourceAsync.failure):
         draft.status.sources = "FAILURE";
         break;
 
@@ -49,6 +51,7 @@ export default (state = defaultState, action: AllActions) =>
       }
 
       case getType(A.createSourceAsync.success):
+      case getType(A.updateSourceAsync.success):
         draft.status.sources = "SUCCESS";
         draft.sources[action.payload.id] = action.payload;
         break;

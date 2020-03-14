@@ -35,7 +35,7 @@ export class ApiClient {
       case "GET":
         return this.client.get(url, config);
       case "PUT":
-        return this.client.put(url, config);
+        return this.client.put(url, data, config);
       case "POST":
         return this.client.post(url, data, config);
       case "DELETE":

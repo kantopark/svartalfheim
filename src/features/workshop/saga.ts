@@ -41,10 +41,26 @@ export function* deleteSource({ payload }: ReturnType<typeof A.deleteSourceAsync
   }
 }
 
+export function* updateSource({
+  payload: { to, ...source }
+}: ReturnType<typeof A.updateSourceAsync.request>) {
+  try {
+    const api: ApiClient = yield select(apiClient);
+    console.log(source);
+    const { data }: AxiosResponse<Source> = yield call(api.put, "/source", source);
+
+    yield put(A.updateSourceAsync.success(data));
+    yield put(push(to));
+  } catch (e) {
+    yield put(A.updateSourceAsync.failure());
+  }
+}
+
 export default function*() {
   yield all([
     takeLatest(A.fetchSourcesAsync.request, fetchSources),
     takeLatest(A.createSourceAsync.request, createSource),
-    takeLatest(A.deleteSourceAsync.request, deleteSource)
+    takeLatest(A.deleteSourceAsync.request, deleteSource),
+    takeLatest(A.updateSourceAsync.request, updateSource)
   ]);
 }

@@ -18,3 +18,9 @@ export const deleteSourceAsync = createAsyncAction(
   "DELETE_SOURCE_SUCCESS",
   "DELETE_SOURCE_FAILURE"
 )<number, number, void>();
+
+export const updateSourceAsync = createAsyncAction(
+  "UPDATE_SOURCE_REQUEST",
+  "UPDATE_SOURCE_SUCCESS",
+  "UPDATE_SOURCE_FAILURE"
+)<Redirection<Source>, Source, void>();
